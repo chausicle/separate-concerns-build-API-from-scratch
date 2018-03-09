@@ -13,6 +13,26 @@ app.use(bodyParser.json())
 
 const snacks = []
 
+app.get('/snacks', getAll = (req, res, next) => {
+
+})
+
+app.get('/snacks/:id', getById = (req, res, next) => {
+
+})
+
+app.post('/snacks', create = (req, res, next) => {
+
+})
+
+app.put('/snacks/:id', update = (req, res, next) => {
+
+})
+
+app.delete('/snacks/:id', deleteSnack = (req, req, next) => {
+  
+})
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 })
