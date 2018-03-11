@@ -8,29 +8,16 @@ const app = express()
 
 app.disable('x-powered-by')
 
-if (process.env.NODE_ENV === 'development') app.use(morgan('dev'))
+if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'))
 app.use(bodyParser.json())
 
-const snacks = []
+const snackRoutes = require('./src/routes/snacks')
+app.use('/snacks', snackRoutes)
 
-app.get('/snacks', getAll = (req, res, next) => {
+app.use((err, req, res, next) => {
+  const status = err.status
 
-})
-
-app.get('/snacks/:id', getById = (req, res, next) => {
-
-})
-
-app.post('/snacks', create = (req, res, next) => {
-
-})
-
-app.put('/snacks/:id', update = (req, res, next) => {
-
-})
-
-app.delete('/snacks/:id', deleteSnack = (req, req, next) => {
-  
+  res.status(status).json({ error: err })
 })
 
 app.listen(port, () => {
