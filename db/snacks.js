@@ -1,10 +1,10 @@
 module.exports = [
   {
-    snack: 'Tweeex',
+    name: 'Tweeex',
     id: "1"
   },
   {
-    snack: 'RatJerks',
+    name: 'RatJerks',
     id: "2"
   }
 ]

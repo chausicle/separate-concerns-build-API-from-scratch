@@ -13,16 +13,67 @@ getById = (id) => {
   return snack
 }
 
-create = (changeLater) => {
-  return
+create = (body) => {
+  const errors = []
+  const id = body.id
+  const name = body.name
+  let response
+
+  if (!id || !name) {
+    if (!id) errors.push('Please fill in id field')
+    if (!name) errors.push('Please fill in name field')
+
+    response = { errors }
+  } else {
+    const snack = {
+      id: uuid(),
+      name
+    }
+    snacks.push(snack)
+    response = snack
+  }
+
+  return response
 }
 
-update = (changeLater) => {
-  return
+update = (id, body) => {
+  const errors = []
+  let snack = snacks.find( snack => { return snack.id === id } )
+  let index = snacks.indexOf(snack)
+  let response
+
+  if (!id || !body.name || !snack) {
+    if (!id) errors.push(`URL parameter of id: ${id} could not be found`)
+    if (!body.name) errors.push('Please fill in name field')
+    if (!snack) errors.push(`Could not find snack of id: ${id}`)
+
+    response = { errors }
+  } else {
+    const snack = {
+      id,
+      name: body.name
+    }
+    snacks[index] = snack
+    response = snack
+  }
+
+  return response
 }
 
-deleteSnack = (changeLater) => {
-  return
+deleteSnack = (id) => {
+  const index = snacks.findIndex( snack => { return snack.id === id } )
+  const error = []
+
+  let response
+
+  if (index === -1) {
+    error.push(`Snack of id: ${id} is not found`)
+    response = { error }
+  } else {
+    response = snacks.splice(index, 1)
+  }
+
+  return response
 }
 
 module.exports = { getAll, getById, create, update, deleteSnack }

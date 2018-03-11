@@ -29,17 +29,46 @@ getById = (req, res, next) => {
 }
 
 create = (req, res, next) => {
-  model.create()
+  const snack = model.create(req.body)
+
+  if (snack.errors) {
+    return next({
+      status: 400,
+      message: `The 'name' or 'id' field is missing`,
+      errors: snack.errors
+    })
+  }
+
+  res.status(201).json({ snack })
 }
 
 update = (req, res, next) => {
   const id = req.params.id
-  model.update('PUT in update')
+  const updatedSnack = model.update(id, req.body)
+
+  if (updatedSnack.errors) {
+    return next({
+      status: 400,
+      errors: updatedSnack.errors
+    })
+  }
+
+  res.status(200).json({ snack: updatedSnack })
 }
 
 deleteSnack = (req, res, next) => {
   const id = req.params.id
-  model.deleteSnack('DELETE in deleteSnack')
+  const result = model.deleteSnack(id)
+
+  if (result.error) {
+    return next({
+      status: 404,
+      message: `Could not find snack of id ${id}`,
+      error: result.error
+    })
+  }
+
+  res.status(204).json()
 }
 
 module.exports = { getAll, getById, create, update, deleteSnack }
